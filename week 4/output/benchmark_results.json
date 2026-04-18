@@ -1,0 +1,38 @@
+[
+  {
+    "query": "What was Q4 2024 revenue?",
+    "role": "finance",
+    "latency": 105.5290699005127,
+    "success": true
+  },
+  {
+    "query": "What is the leave policy?",
+    "role": "hr",
+    "latency": 21.709918975830078,
+    "success": false
+  },
+  {
+    "query": "Marketing campaign ROI",
+    "role": "marketing",
+    "latency": 26.120424270629883,
+    "success": true
+  },
+  {
+    "query": "API architecture",
+    "role": "engineering",
+    "latency": 20.351648330688477,
+    "success": true
+  },
+  {
+    "query": "Employee handbook",
+    "role": "employees",
+    "latency": 35.28237342834473,
+    "success": true
+  },
+  {
+    "query": "What is the CEO salary?",
+    "role": "c-level",
+    "latency": 36.37433052062988,
+    "success": false
+  }
+]

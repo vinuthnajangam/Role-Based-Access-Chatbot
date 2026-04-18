@@ -1,0 +1,28 @@
+{
+    "abbr": {
+        "q1": "quarter 1",
+        "q2": "quarter 2",
+        "q3": "quarter 3",
+        "q4": "quarter 4",
+        "roi": "return on investment",
+        "hr": "human resources",
+        "api": "application programming interface"
+    },
+    "synonyms": {
+        "profit": [
+            "revenue",
+            "earnings",
+            "income"
+        ],
+        "employee": [
+            "staff",
+            "worker",
+            "team member"
+        ],
+        "policy": [
+            "rule",
+            "guideline",
+            "procedure"
+        ]
+    }
+}

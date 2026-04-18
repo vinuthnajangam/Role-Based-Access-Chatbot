@@ -1,0 +1,22 @@
+[
+    {
+        "query": "quarterly revenue report",
+        "expected_dept": "Finance"
+    },
+    {
+        "query": "employee benefits policy",
+        "expected_dept": "HR"
+    },
+    {
+        "query": "marketing campaign ROI",
+        "expected_dept": "marketing"
+    },
+    {
+        "query": "API documentation",
+        "expected_dept": "engineering"
+    },
+    {
+        "query": "company handbook",
+        "expected_dept": "general"
+    }
+]

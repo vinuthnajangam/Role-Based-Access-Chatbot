@@ -1,0 +1,6 @@
+{
+    "collection_name": "rbac_documents",
+    "persist_directory": "../output/vector_db",
+    "embedding_dimension": 384,
+    "distance_metric": "cosine"
+}

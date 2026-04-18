@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
+# Logs
+*.log
+
+# Local LLM Models (do not push to GitHub - too large)
+*.gguf
+*.bin
+models/
+ollama_models/
+
+# Ollama installer
+OllamaSetup.exe
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Test outputs
+coverage/
+.coverage
+
+# OS
+.DS_Store
+Thumbs.db

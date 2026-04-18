@@ -1,0 +1,61 @@
+{
+    "departments": {
+        "Finance": [
+            "finance",
+            "c-level"
+        ],
+        "HR": [
+            "hr",
+            "c-level"
+        ],
+        "marketing": [
+            "marketing",
+            "c-level"
+        ],
+        "engineering": [
+            "engineering",
+            "c-level"
+        ],
+        "general": [
+            "employees",
+            "finance",
+            "hr",
+            "marketing",
+            "engineering",
+            "c-level"
+        ]
+    },
+    "keywords": {
+        "finance": [
+            "financial",
+            "budget",
+            "revenue",
+            "quarterly",
+            "profit",
+            "expense"
+        ],
+        "hr": [
+            "employee",
+            "salary",
+            "policy",
+            "leave",
+            "benefits",
+            "hiring"
+        ],
+        "marketing": [
+            "campaign",
+            "marketing",
+            "brand",
+            "customer",
+            "sales"
+        ],
+        "engineering": [
+            "technical",
+            "api",
+            "code",
+            "system",
+            "architecture",
+            "deploy"
+        ]
+    }
+}

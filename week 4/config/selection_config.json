@@ -1,0 +1,6 @@
+{
+    "top_k": 5,
+    "similarity_threshold": 0.3,
+    "max_context_tokens": 2000,
+    "diversity_weight": 0.2
+}

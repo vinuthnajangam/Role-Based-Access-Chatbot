@@ -1,0 +1,10 @@
+{
+    "name": "rbac-root",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "build": "npm --prefix rbac-frontend install && npm --prefix rbac-frontend run build",
+        "install": "npm --prefix rbac-frontend install",
+        "dev": "npm --prefix rbac-frontend run dev"
+    }
+}

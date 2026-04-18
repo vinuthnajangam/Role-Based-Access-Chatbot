@@ -1,0 +1,42 @@
+[
+  {
+    "query": "quarterly revenue report",
+    "expected_dept": "Finance",
+    "actual_dept": "Finance",
+    "latency_ms": 117.89631843566895,
+    "passed": true,
+    "score": 0.5382498502731323
+  },
+  {
+    "query": "employee benefits policy",
+    "expected_dept": "HR",
+    "actual_dept": "general",
+    "latency_ms": 18.883943557739258,
+    "passed": false,
+    "score": 0.42371904850006104
+  },
+  {
+    "query": "marketing campaign ROI",
+    "expected_dept": "marketing",
+    "actual_dept": "marketing",
+    "latency_ms": 16.068458557128906,
+    "passed": true,
+    "score": 0.4088471531867981
+  },
+  {
+    "query": "API documentation",
+    "expected_dept": "engineering",
+    "actual_dept": "engineering",
+    "latency_ms": 14.60123062133789,
+    "passed": true,
+    "score": 0.48478859663009644
+  },
+  {
+    "query": "company handbook",
+    "expected_dept": "general",
+    "actual_dept": "general",
+    "latency_ms": 18.019914627075195,
+    "passed": true,
+    "score": 0.5529342889785767
+  }
+]

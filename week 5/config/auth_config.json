@@ -1,0 +1,6 @@
+{
+    "secret_key": "SUPER_SECRET_KEY_CHANGE_IN_PROD",
+    "algorithm": "HS256",
+    "access_token_expire_minutes": 60,
+    "refresh_token_expire_days": 7
+}

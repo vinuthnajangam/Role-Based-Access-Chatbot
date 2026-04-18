@@ -1,0 +1,13 @@
+{
+  "embedding": {
+    "single_doc_ms": 59.13901329040527,
+    "batch_10_doc_ms": 245.50175666809082,
+    "avg_per_doc_ms": 24.550175666809082
+  },
+  "search": {
+    "avg_latency_ms": 18.375062942504883,
+    "p95_latency_ms": 46.29139900207513,
+    "min_latency_ms": 11.231660842895508,
+    "max_latency_ms": 73.24910163879395
+  }
+}

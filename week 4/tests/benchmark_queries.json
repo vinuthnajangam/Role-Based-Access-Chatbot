@@ -1,0 +1,34 @@
+{
+    "queries": [
+        {
+            "query": "What was Q4 2024 revenue?",
+            "role": "finance",
+            "expected_dept": "Finance"
+        },
+        {
+            "query": "What is the leave policy?",
+            "role": "hr",
+            "expected_dept": "HR"
+        },
+        {
+            "query": "Marketing campaign ROI",
+            "role": "marketing",
+            "expected_dept": "marketing"
+        },
+        {
+            "query": "API architecture",
+            "role": "engineering",
+            "expected_dept": "engineering"
+        },
+        {
+            "query": "Employee handbook",
+            "role": "employees",
+            "expected_dept": "general"
+        },
+        {
+            "query": "What is the CEO salary?",
+            "role": "c-level",
+            "expected_dept": "HR"
+        }
+    ]
+}
