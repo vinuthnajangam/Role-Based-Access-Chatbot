@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RBAC AI - Project Presentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.0/umd/lucide.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent-1: #3b82f6;
+            /* Blue */
+            --accent-2: #8b5cf6;
+            /* Purple */
+            --accent-3: #10b981;
+            /* Green */
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Ambient Background */
+        .ambient-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float 20s infinite alternate ease-in-out;
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: rgba(139, 92, 246, 0.15);
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(50px, 50px) scale(1.1);
+            }
+        }
+
+        /* Presentation Container */
+        .presentation {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+        }
+
+        .slide {
+            height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+            position: relative;
+        }
+
+        .content {
+            max-width: 1200px;
+            width: 100%;
+            z-index: 10;
+            /* Added simple animation instead of relying on JS intersection observer */
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Glassmorphism Cards */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .glass-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #fff;
+        }
+
+        .glass-card p,
+        .glass-card li {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        ul {
+            list-style-position: inside;
+        }
+
+        /* Navigation Dots */
+        .nav-dots {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .dot:hover {
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .dot.active {
+            background: var(--accent-1);
+            transform: scale(1.3);
+            box-shadow: 0 0 10px var(--accent-1);
+        }
+
+        .dot .tooltip {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+        }
+
+        .dot:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* Specific Slide Customizations */
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 3rem;
+            font-weight: 800;
+            font-family: 'Outfit';
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+
+        /* Flow diagram placeholder */
+        .flow-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 2rem;
+            background: var(--glass-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .flow-step {
+            text-align: center;
+            position: relative;
+            flex: 1;
+        }
+
+        .flow-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-1), transparent);
+            z-index: -1;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 900px) {
+
+            .grid-2,
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            .flow-container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .flow-step:not(:last-child)::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ambient-blob blob-1"></div>
+    <div class="ambient-blob blob-2"></div>
+
+    <div class="nav-dots" id="nav-dots">
+        <!-- Generated by JS -->
+    </div>
+
+    <div class="presentation" id="presentation">
+
+        <!-- SLIDE 1: INTRODUCTION -->
+        <section class="slide" id="intro" data-title="Introduction">
+            <div class="content">
+                <header>
+                    <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
+                        <i data-lucide="shield-check" style="width: 80px; height: 80px; color: var(--accent-1);"></i>
+                    </div>
+                    <h1>AI-Powered Internal <br><span class="gradient-text">Knowledge Assistant</span></h1>
+                    <p style="font-size: 1.5rem; margin-top: 1rem; color: #fff;">Secure RAG Chatbot with Role-Based
+                        Access Control</p>
+                    <br>
+                    <p>Designed to make enterprise conversations smart, helpful, and above all, <b>secure</b>. We
+                        eliminate information silos while strictly enforcing data privacy.</p>
+                </header>
+                <div style="text-align: center; margin-top: 4rem;">
+                    <p
+                        style="color: var(--accent-1); font-weight: 600; letter-spacing: 2px; text-transform: uppercase;">
+                        The RBAC Group 3 Team</p>
+                    <p style="margin-top: 0.5rem; color: var(--text-muted);">Led by <b>Arshad Pasha</b></p>
+                    <p style="margin-top: 0.5rem; color: var(--text-muted);">Mentor: Mr. Narendra Kumar</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW SLIDE: TEAM WORKFLOW -->
+        <section class="slide" id="team" data-title="Team Structure">
+            <div class="content">
+                <header style="margin-bottom: 2rem;">
+                    <h2>Team <span class="gradient-text">Workflow</span></h2>
+                    <p>Division of labor across 3 distinct groups to build the RBAC-secured architecture.</p>
+                </header>
+                <div class="grid-2" style="gap: 3rem;">
+                    <!-- Text Layout Side -->
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div class="glass-card" style="padding: 1.5rem;">
+                            <h3 style="color: var(--accent-1); margin-bottom: 0.5rem; font-size: 1.2rem;">Group 1</h3>
+                            <p><b>1 & 2.</b> Intro & Chatbot Overview: <span style="color: #fff;">Pakalapati
+                                    Akshaya</span></p>
+                            <p><b>3.</b> Technical Architecture: <span style="color: #fff;">Priyanshu Kumar</span></p>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem;">
+                            <h3 style="color: var(--accent-2); margin-bottom: 0.5rem; font-size: 1.2rem;">Group 2</h3>
+                            <p><b>4.</b> Features & Functionality: <span style="color: #fff;">Keerthi</span></p>
+                            <p><b>5.</b> Evaluation Reports: <span style="color: #fff;">Kanak</span></p>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem;">
+                            <h3 style="color: var(--accent-3); margin-bottom: 0.5rem; font-size: 1.2rem;">Group 3</h3>
+                            <p><b>6.</b> Development & Deployment: <span style="color: #fff;">Arshad Pasha</span></p>
+                            <p><b>-</b> Backup / Support: <span style="color: #fff;">Karthik</span></p>
+                            <p><b>-</b> Challenges & Limitations: <span style="color: #fff;">Shirisha</span></p>
+                            <p><b>7.</b> Conclusion: <span style="color: #fff;">Vinuthna</span></p>
+                            <p><b>-</b> Vote of Thanks: <span style="color: #fff;">Kavya</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Generated Flowchart Image Side -->
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <img src="workflow.png" alt="Team Workflow Visual"
+                            style="width: 100%; max-height: 550px; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 40px rgba(59, 130, 246, 0.15); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: OVERVIEW -->
+        <section class="slide" id="overview" data-title="Problem Overview">
+            <div class="content">
+                <header>
+                    <h2>Key Problems in Enterprises <span class="gradient-text">Solved</span></h2>
+                    <p>Why standard LLMs and search bars fail inside a company.</p>
+                </header>
+                <div class="grid-4">
+                    <div class="glass-card">
+                        <div class="icon-circle"><i data-lucide="database" style="color: #60a5fa;"></i></div>
+                        <h3>Information Silos</h3>
+                        <p>Critical data is scattered across Finance, HR, Engineering, and Marketing, making it hard to
+                            find answers quickly.</p>
+                    </div>
+                    <div class="glass-card">
+                        <div class="icon-circle"><i data-lucide="alert-triangle" style="color: #f87171;"></i></div>
+                        <h3>Security Risks</h3>
+                        <p>Standard LLMs like ChatGPT cannot be used with sensitive internal company data due to
+                            external exposure risks.</p>
+                    </div>
+                    <div class="glass-card">
+                        <div class="icon-circle"><i data-lucide="lock" style="color: #34d399;"></i></div>
+                        <h3>No Access Control</h3>
+                        <p>Traditional search tools don't respect user roles. An intern could potentially access payroll
+                            or C-level documents.</p>
+                    </div>
+                    <div class="glass-card">
+                        <div class="icon-circle"><i data-lucide="brain-circuit" style="color: #c084fc;"></i></div>
+                        <h3>Lack of Context</h3>
+                        <p>Keyword search fails to understand complex business queries or the underlying intent behind
+                            employee questions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: ARCHITECTURE -->
+        <section class="slide" id="architecture" data-title="System Architecture">
+            <div class="content">
+                <header>
+                    <h2>Technical <span class="gradient-text">Architecture</span></h2>
+                    <p>How a query travels from the user to a secure, accurate response.</p>
+                </header>
+
+                <div class="flow-container">
+                    <div class="flow-step">
+                        <div class="icon-circle" style="margin: 0 auto 1rem;"><i data-lucide="message-square"></i></div>
+                        <h4>1. Input</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">User query is
+                            sanitized & intent detected.</p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="icon-circle" style="margin: 0 auto 1rem;"><i data-lucide="shield"></i></div>
+                        <h4>2. Security Check</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">RBAC Middleware
+                            validates JWT & permissions.</p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="icon-circle" style="margin: 0 auto 1rem;"><i data-lucide="search"></i></div>
+                        <h4>3. Retrieval</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">ChromaDB semantic
+                            search with Role Metadata filters.</p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="icon-circle" style="margin: 0 auto 1rem;"><i data-lucide="cpu"></i></div>
+                        <h4>4. Generation</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">LLM synthesizes
+                            answer using ONLY retrieved context.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card" style="margin-top: 2rem;">
+                    <h3><i data-lucide="fingerprint"></i> Role-Based Access Control Concept</h3>
+                    <p>Every document chunk in our Vector Database contains metadata tags (e.g.,
+                        <code>department: finance</code>). When a user queries the system, the backend automatically
+                        intercepts the request, reads their role from their JWT Token, and forcefully appends a filter
+                        to the Vector Search. <b>Finance users physically cannot retrieve HR data. Admin (C-Level) users
+                            have unrestricted filters.</b>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 4: DEVELOPMENT & DEPLOYMENT -->
+        <section class="slide" id="dev-deploy" data-title="Dev & Deployment">
+            <div class="content">
+                <header>
+                    <h2>Development & <span class="gradient-text">Deployment</span></h2>
+                    <p>A modern, modular tech stack separating scalable APIs from interactive UIs.</p>
+                </header>
+                <div class="grid-2">
+                    <div class="glass-card" style="padding: 1.5rem 2.5rem;">
+                        <h3 style="color: var(--accent-1);"><i data-lucide="server"></i> Backend & AI Engineering</h3>
+                        <p>The core intelligence, data processing, and security layer deployed to <b
+                                style="color: #fff;">Render</b>.</p>
+                        <br>
+                        <ul style="font-size: 0.95rem;">
+                            <li><b>FastAPI (Python):</b> A modern web framework for building high-performance APIs. We
+                                chose this because python is the native language for ML models.</li>
+                            <li><b>JWT (JSON Web Tokens):</b> <br />
+                                <span style="color: #cbd5e1;"><b>What is it?</b> A secure, self-contained way for
+                                    transmitting information between parties as a JSON object.</span><br />
+                                <span style="color: #cbd5e1;"><b>Why we use it?</b> When a user logs in, the backend
+                                    creates a signed token containing their exact <i>Role</i> (e.g., HR, Finance). The
+                                    frontend sends this back with every query. Our backend trusts this signature,
+                                    ensuring users cannot hack the system to see unauthorized files.</span>
+                            </li>
+                            <li style="margin-top: 0.5rem;"><b>AI & Machine Learning (RAG):</b> <br />
+                                <span style="color: #cbd5e1;"><b>Why we use it?</b> Because standard LLMs don't know our
+                                    company secrets.</span><br />
+                                <span style="color: #cbd5e1;"><b>How?</b> We use <b>SentenceTransformers</b> (ML) to
+                                    convert text into numbers (vectors) and store them in <b>ChromaDB</b>. When a query
+                                    is made, we do a semantic search to find the closest numbers, pull the text, and
+                                    feed <i>only</i> that text to our LLM (Mistral-7B via OpenRouter) to generate the
+                                    final answer.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="glass-card" style="padding: 1.5rem 2.5rem;">
+                        <h3 style="color: var(--accent-2);"><i data-lucide="layout-template"></i> Frontend Engineering
+                        </h3>
+                        <p>The user-facing interactive portal deployed to <b style="color: #fff;">Vercel</b>.</p>
+                        <br>
+                        <ul style="font-size: 0.95rem;">
+                            <li><b>The Pivot to Next.js:</b> <br />
+                                <span style="color: #cbd5e1;">Our original goal was to use <b>Streamlit</b> as specified
+                                    in the project outline. However, Streamlit was completely unsuccessful at handling
+                                    complex JWT state management, true Role-Based UI rendering, and maintaining a
+                                    stable, modern look.</span>
+                            </li>
+                            <li style="margin-top: 0.5rem;"><b>Our Solution (Next.js):</b> <br />
+                                <span style="color: #cbd5e1;">We scrapped Streamlit and entirely rebuilt the frontend
+                                    using <b>Next.js (React)</b>. This allowed us to build a lightning-fast, highly
+                                    secure interface that could physically intercept unauthenticated traffic and provide
+                                    a premium "Glassmorphism" UI experience using <b>Tailwind CSS</b>.</span>
+                            </li>
+                            <li style="margin-top: 0.5rem;"><b>Axios Interceptors:</b> <br />
+                                <span style="color: #cbd5e1;">We use Axios to communicate with the Render API. Axios
+                                    automatically attaches the JWT token from LocalStorage to the header of <i>every
+                                        single request</i>, ensuring strict security on the frontend.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 5: EVALUATION -->
+        <section class="slide" id="evaluation" data-title="Evaluation Reports">
+            <div class="content">
+                <header>
+                    <h2>System <span class="gradient-text">Evaluation</span></h2>
+                    <p>Rigorous testing to ensure accuracy and data security.</p>
+                </header>
+                <div class="grid-3" style="margin-bottom: 2rem;">
+                    <div class="glass-card metric">
+                        <div class="metric-value gradient-text">100%</div>
+                        <div class="metric-label">RBAC Accuracy</div>
+                        <p style="font-size: 0.85rem; margin-top: 1rem;">Zero unauthorized documents leaked during
+                            penetration tests across cross-department queries.</p>
+                    </div>
+                    <div class="glass-card metric">
+                        <div class="metric-value gradient-text">1.0</div>
+                        <div class="metric-label">Recall@K Score</div>
+                        <p style="font-size: 0.85rem; margin-top: 1rem;">System successfully retrieved the correct
+                            document for 100% of the benchmark questions.</p>
+                    </div>
+                    <div class="glass-card metric">
+                        <div class="metric-value gradient-text">>0.85</div>
+                        <div class="metric-label">Avg Confidence</div>
+                        <p style="font-size: 0.85rem; margin-top: 1rem;">High cosine similarity scores from ChromaDB
+                            ensuring only highly relevant context is passed to the LLM.</p>
+                    </div>
+                </div>
+                <div class="glass-card">
+                    <h3>Answer Quality (Human Evaluation)</h3>
+                    <p>RAG systems are graded on Relevance, Correctness, and Completeness (Scale 1-4). Our system
+                        averaged a <b>3.8 / 4.0</b> across complex organizational queries, backed up by exact document
+                        citations in the UI.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 6: CONCLUSION -->
+        <section class="slide" id="conclusion" data-title="Conclusion">
+            <div class="content">
+                <header>
+                    <h2>Conclusion & <span class="gradient-text">Future Scope</span></h2>
+                    <p>Transforming enterprise knowledge access.</p>
+                </header>
+                <div class="grid-2">
+                    <div class="glass-card">
+                        <h3><i data-lucide="check-circle-2" style="color: var(--accent-3);"></i> Key Takeaways</h3>
+                        <ul style="margin-top: 1rem; padding-left: 1.5rem; line-height: 1.8;">
+                            <li>Successfully built a secure, role-aware AI chatbot preventing data silos and leaks.</li>
+                            <li>Combined FastAPI backend intelligence with an ultra-responsive Next.js interface.</li>
+                            <li>Scalable RAG architecture ready for enterprise scaling.</li>
+                            <li>Provides transparency by displaying exact sources and relevance scores to the user.</li>
+                        </ul>
+                    </div>
+                    <div class="glass-card">
+                        <h3><i data-lucide="trending-up" style="color: var(--accent-1);"></i> Challenges & Future</h3>
+                        <ul style="margin-top: 1rem; padding-left: 1.5rem; line-height: 1.8;">
+                            <li><b>Challenges:</b> API rate limiting when testing heavily, and balancing prompt context
+                                window size.</li>
+                            <li><b>Future Scope:</b> Integrating Azure Active Directory / SSO for enterprise login.</li>
+                            <li><b>Tracking:</b> Implementing an Admin dashboard to track query analytics and most
+                                active departments without viewing raw private messages.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 4rem;">
+                    <h2 class="gradient-text" style="font-size: 3rem;">Thank You</h2>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">The RBAC Group 3 Team</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Safely Initialize Icons
+        try {
+            lucide.createIcons();
+        } catch (e) {
+            console.error("Lucide icons failed to load:", e);
+        }
+
+        // Slide Navigation Logic
+        const slides = document.querySelectorAll('.slide');
+        const navDotsContainer = document.getElementById('nav-dots');
+
+        // Create dots
+        slides.forEach((slide, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            if (index === 0) dot.classList.add('active');
+
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.textContent = slide.getAttribute('data-title');
+
+            dot.appendChild(tooltip);
+            dot.addEventListener('click', () => {
+                slide.scrollIntoView({ behavior: 'smooth' });
+            });
+            navDotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        // Intersection Observer for Animations and Dot Updates
+        const observerOptions = {
+            root: document.getElementById('presentation'),
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+
+                    // Update dots
+                    const index = Array.from(slides).indexOf(entry.target);
+                    dots.forEach(d => d.classList.remove('active'));
+                    if (dots[index]) dots[index].classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        slides.forEach(slide => observer.observe(slide));
+    </script>
+</body>
+
+</html>
